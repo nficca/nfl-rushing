@@ -1,0 +1,2 @@
+class Rushing < ApplicationRecord
+end

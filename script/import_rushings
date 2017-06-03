@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require_relative "../config/environment"
+require "json"
+
+unless ARGV[0] and File.exists?(ARGV[0])
+    puts "Usage: #{$0} [rushings_json_filepath]"
+    exit 1
+end
+
+data = File.read(ARGV[0])
+rushings = JSON.parse(data)
+
+for rushing in rushings
+    Rushing.create(
+        player: rushing["Player"],
+        team: rushing["Team"],
+        position: rushing["Pos"],
+        attempts_per_game: rushing["Att/G"],
+        attempts: rushing["Att"],
+        yards: rushing["Yds"],
+        average_yards_per_attempt: rushing["Avg"],
+        yards_per_game: rushing["Yds/G"],
+        touchdowns: rushing["TD"],
+        longest_rush: rushing["Lng"],
+        first_downs: rushing["1st"],
+        first_down_percentage: rushing["1st%"],
+        twenty_yards_each: rushing["20+"],
+        forty_yards_each: rushing["40+"],
+        fumbles: rushing["FUM"]
+    )
+end
