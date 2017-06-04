@@ -42,7 +42,7 @@ class Rushings extends React.Component {
         return (
             <div className="rushings">
                 <div className="meta">
-                    <h2 className="title">Rushings</h2>
+                    <h2 className="title">Rushing</h2>
                     <a href={this.getCSVParams()} className="pull-right btn btn-default">Download CSV</a>
                     <div className="search-container form-group pull-right">
                         <input type="text" className="form-control" placeholder='Search Player' onChange={this.handleSearch.bind(this)}></input>
