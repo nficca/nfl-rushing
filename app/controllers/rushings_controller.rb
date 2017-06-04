@@ -17,7 +17,16 @@ class RushingsController < ApplicationController
         rushings = rushings.select(columns)
 
         if params.has_key?(:sortby) && Rushing.has_attribute?(params[:sortby]) && params.has_key?(:order)
-            rushings.order!(params[:sortby] + (if params[:order] === 'desc' then ' DESC' else ' ASC' end))
+            unless params[:sortby] == "longest_rush"
+                rushings.order!(params[:sortby] + (params[:order] == 'desc' ? ' DESC' : ' ASC'))
+            else
+                # Need to convert to integer for longest rush since it is a string with a number
+                rushings = rushings.sort do |a, b|
+                    a = a.longest_rush.to_i
+                    b = b.longest_rush.to_i
+                    (a <=> b) * (params[:order] == 'desc' ? -1 : 1)
+                end
+            end
         end
         csv_string = CSV.generate do |csv|
             csv << columns

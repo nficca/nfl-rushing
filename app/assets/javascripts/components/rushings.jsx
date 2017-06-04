@@ -80,15 +80,22 @@ class Rushings extends React.Component {
 
             // Sort the data by the given column
             prevState.data.sort((a, b) => {
-                if (a[column] < b[column]) {
+                a_id = a.id;
+                b_id = b.id;
+
+                // Longest rush must be parsed for an int since it's a string with a number
+                a = column === 'longest_rush' ? parseInt(a[column]) : a[column];
+                b = column === 'longest_rush' ? parseInt(b[column]) : b[column];
+
+                if (a < b) {
                     return prevState.sort.asc ? -1 : 1;
-                } else if (a[column] > b[column]) {
+                } else if (a > b) {
                     return prevState.sort.asc ? 1 : -1;
                 } 
                 // Tiebreaker sort is ID
-                else if (a.id < b.id) {
+                else if (a_id < b_id) {
                     return prevState.sort.asc ? -1 : 1;
-                } else if (a.id > b.id) {
+                } else if (a_id > b_id) {
                     return prevState.sort.asc ? 1 : -1;
                 }
                 return 0;
