@@ -6,6 +6,7 @@ class Rushings extends React.Component {
             sort: { column: 'id', asc: true }
         };
 
+        this.getCSVParams = this.getCSVParams.bind(this);
         this.sortChevron = this.sortChevron.bind(this);
     }
     
@@ -39,7 +40,10 @@ class Rushings extends React.Component {
 
         return (
             <div className="rushings">
-                <h2 className="title">Rushings</h2>
+                <div className="meta">
+                    <h2 className="title">Rushings</h2>
+                    <a href={this.getCSVParams()} className="pull-right btn btn-default">Download CSV</a>
+                </div>
                 <table className="table table-bordered">
                     <thead><tr>
                         {headers}
@@ -89,9 +93,15 @@ class Rushings extends React.Component {
                 }
                 return 0;
             });
-            
+
             return prevState;
         });
+    }
+
+    getCSVParams() {
+        return '/rushings.csv?' +
+            `sortby=${this.state.sort.column}&` +
+            `order=${this.state.sort.asc ? 'asc' : 'desc'}`
     }
 
     // Returns ▲, ▼, or empty string depending on how the column is being sorted
