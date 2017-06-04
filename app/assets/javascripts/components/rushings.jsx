@@ -6,6 +6,7 @@ class Rushings extends React.Component {
             sort: { column: 'id', asc: true }
         };
 
+        this.noResults = this.noResults.bind(this);
         this.getCSVParams = this.getCSVParams.bind(this);
         this.sortChevron = this.sortChevron.bind(this);
     }
@@ -43,13 +44,16 @@ class Rushings extends React.Component {
                 <div className="meta">
                     <h2 className="title">Rushings</h2>
                     <a href={this.getCSVParams()} className="pull-right btn btn-default">Download CSV</a>
+                    <div className="search-container form-group pull-right">
+                        <input type="text" className="form-control" placeholder='Search Player' onChange={this.handleSearch.bind(this)}></input>
+                    </div>
                 </div>
                 <table className="table table-bordered">
                     <thead><tr>
                         {headers}
                     </tr></thead>
                     <tbody>
-                        {rows}
+                        {rows.length? rows : this.noResults()}
                     </tbody>
                 </table>
             </div>
@@ -105,6 +109,18 @@ class Rushings extends React.Component {
         });
     }
 
+    handleSearch(event) {
+        query = event.target.value.toLowerCase();
+        this.setState(prevState => {
+            // filter the rows
+            prevState.data = this.props.data.filter(row => {
+                return row.player.toLowerCase().indexOf(query) > -1;
+            })
+
+            return prevState;
+        });
+    }
+
     getCSVParams() {
         return '/rushings.csv?' +
             `sortby=${this.state.sort.column}&` +
@@ -117,5 +133,9 @@ class Rushings extends React.Component {
             return '\u00A0' + (this.state.sort.asc ? '\u25B2' : '\u25BC');
         }
         return '';
+    }
+
+    noResults() {
+        return <tr><td className="no-results" colSpan={Object.keys(this.props.stats).length}>No Results</td></tr>
     }
 }

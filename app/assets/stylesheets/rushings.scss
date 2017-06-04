@@ -3,6 +3,9 @@
     .title {
         display: inline;
     }
+    .search-container {
+        margin: 0 8px;
+    }
 }
 
 .sort-button {
@@ -19,4 +22,8 @@
 
 .even-row {
     background-color: #EDEDED;
+}
+
+.no-results {
+    text-align: center;
 }
