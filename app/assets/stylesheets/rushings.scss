@@ -1,0 +1,15 @@
+.sort-button {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    .chevron {
+        font-size: xx-small;
+    }
+}
+
+.even-row {
+    background-color: #EDEDED;
+}
