@@ -12,10 +12,6 @@ class RushingsController < ApplicationController
     end
 
     def csv(rushings)
-        columns = Rushing.column_names - %w[created_at updated_at];
-
-        rushings = rushings.select(columns)
-
         if params.has_key?(:sortby) && Rushing.has_attribute?(params[:sortby]) && params.has_key?(:order)
             unless params[:sortby] == "longest_rush"
                 rushings.order!(params[:sortby] + (params[:order] == 'desc' ? ' DESC' : ' ASC'))
@@ -28,10 +24,11 @@ class RushingsController < ApplicationController
                 end
             end
         end
+
         csv_string = CSV.generate do |csv|
-            csv << columns
+            csv << stat_names.values
             rushings.each do |rushing|
-                csv << rushing.attributes.values
+                csv << stat_names.keys.map { |column| rushing[column] }
             end
         end
     end
